@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.rest.get('votes/variants')
+        this.rest.get('/votes/variants')
             .subscribe({
                 next: response => {
                     console.log(response)

@@ -8,7 +8,7 @@ import {environment} from "../../../environments/environment";
     providedIn: 'root'
 })
 export class RestService {
-    private apiUrl = environment.apiUrl;
+    private apiUrl = environment.local;
     private options = {
         headers: new HttpHeaders().set('Content-Type', 'application/json')
     };
