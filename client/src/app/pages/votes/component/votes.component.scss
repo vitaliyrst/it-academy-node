@@ -1,0 +1,33 @@
+@import "palette";
+@import "mixins";
+
+.votes-container {
+    .grid {
+        max-width: 500px;
+        min-width: 350px;
+
+        .grid-header {
+            display: grid;
+            grid-template-columns: 0.1fr 0.5fr 1fr;
+            grid-template-rows: auto;
+            align-items: center;
+            grid-gap: 20px;
+        }
+
+        .content {
+            margin-top: 20px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            .grid-body {
+                display: grid;
+                grid-template-columns: 0.1fr 0.5fr 1fr;
+                grid-template-rows: auto;
+                align-items: center;
+                grid-gap: 20px;
+            }
+        }
+    }
+}

@@ -36,7 +36,7 @@ export class RestService {
 
     public post(path: string, body: object = {}, options: object = {}): Observable<any> {
         this.options = {...this.options, ...options};
-        console.log(body)
+
         return this.httpClient
             .post(this.apiUrl + path, body, {...this.options})
             .pipe(
