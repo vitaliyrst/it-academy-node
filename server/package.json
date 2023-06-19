@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "app.ts",
 	"scripts": {
-		"build": "rimraf dist && tsc -p tsconfig.json",
+		"build": "rm -R dist && tsc -p tsconfig.json",
 		"pm2": "pm2 start dist/app.js --watch -i max",
 		"dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/app.js\""
 	},
