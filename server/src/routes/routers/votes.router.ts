@@ -1,17 +1,10 @@
 import {Router} from "express";
+import VotesController from "../../controllers/votes/votes.controller";
 
 const router: Router = Router();
 
-router.get('/variants', (req, res) => {
-    res.status(200).json({success: true, data: 'variants'});
-});
-
-router.get('/stat', (req, res) => {
-    res.status(200).json({success: true, data: 'stat'});
-});
-
-router.post('/vote', (req, res) => {
-    res.send(req);
-});
+router.get('/variants', VotesController.variants);
+router.get('/stats', VotesController.stats);
+router.post('/vote', VotesController.vote);
 
 export default router;

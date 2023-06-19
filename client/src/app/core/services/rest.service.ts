@@ -8,7 +8,7 @@ import {environment} from "../../../environments/environment";
     providedIn: 'root'
 })
 export class RestService {
-    private apiUrl = environment.local;
+    private apiUrl = environment.apiUrl;
     private options = {
         headers: new HttpHeaders().set('Content-Type', 'application/json')
     };
@@ -28,7 +28,7 @@ export class RestService {
 
     public put(path: string, body: object = {}): Observable<any> {
         return this.httpClient
-            .put(this.apiUrl + path, JSON.stringify(body), this.options)
+            .put(this.apiUrl + path, body, this.options)
             .pipe(
                 catchError(this.formatErrors)
             );
@@ -36,9 +36,9 @@ export class RestService {
 
     public post(path: string, body: object = {}, options: object = {}): Observable<any> {
         this.options = {...this.options, ...options};
-
+        console.log(body)
         return this.httpClient
-            .post(this.apiUrl + path, JSON.stringify(body), {...this.options})
+            .post(this.apiUrl + path, body, {...this.options})
             .pipe(
                 catchError(this.formatErrors)
             );

@@ -16,7 +16,11 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.rest.get('/votes/variants')
+
+        const data = {
+            id: 6
+        }
+        this.rest.post('/votes/vote', data)
             .subscribe({
                 next: response => {
                     console.log(response)
