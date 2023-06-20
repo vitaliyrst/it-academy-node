@@ -4,8 +4,12 @@ import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 const routes: Routes = [
     {
         path: '',
-        redirectTo: 'votes',
+        redirectTo: 'main',
         pathMatch: 'full',
+    },
+    {
+        path: 'main',
+        loadChildren: () => import('./pages/main/main.module').then(m => m.MainModule),
     },
     {
         path: 'votes',
@@ -13,7 +17,7 @@ const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: 'votes'
+        redirectTo: 'main'
     }
 ];
 

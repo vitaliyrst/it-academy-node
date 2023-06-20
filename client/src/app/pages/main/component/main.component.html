@@ -1,0 +1,7 @@
+<div class="dashboard-container">
+    <div *ngFor="let lesson of lessons">
+        <div *ngFor="let work of lesson.homework">
+            {{work.description}}
+        </div>
+    </div>
+</div>
