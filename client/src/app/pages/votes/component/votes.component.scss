@@ -8,10 +8,14 @@
 
         .grid-header {
             display: grid;
-            grid-template-columns: 0.1fr 0.5fr 1fr;
+            grid-template-columns: 0.1fr 0.5fr 0.5fr;
             grid-template-rows: auto;
             align-items: center;
+            justify-items: center;
             grid-gap: 20px;
+
+            @include RobotoBold();
+            @include SetFont(16px, 20px, $text-color);
         }
 
         .content {
@@ -23,10 +27,17 @@
 
             .grid-body {
                 display: grid;
-                grid-template-columns: 0.1fr 0.5fr 1fr;
+                grid-template-columns: 0.1fr 0.5fr 0.5fr;
                 grid-template-rows: auto;
                 align-items: center;
+                justify-items: center;
                 grid-gap: 20px;
+
+                @include SetFont(14px, 18px, $text-color);
+
+                .btn-vote {
+                    width: 100%;
+                }
             }
         }
     }

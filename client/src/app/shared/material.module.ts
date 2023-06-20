@@ -20,9 +20,9 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDialogModule} from "@angular/material/dialog";
-import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatTreeModule} from "@angular/material/tree";
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
     declarations: [],
@@ -47,8 +47,8 @@ import {MatTreeModule} from "@angular/material/tree";
         MatSlideToggleModule,
         MatDividerModule,
         MatDatepickerModule,
-        MatPaginatorModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatTableModule
     ],
     exports: [
         MatButtonModule,
@@ -71,9 +71,9 @@ import {MatTreeModule} from "@angular/material/tree";
         MatSlideToggleModule,
         MatDividerModule,
         MatDatepickerModule,
-        MatPaginatorModule,
         MatExpansionModule,
-        MatTreeModule
+        MatTreeModule,
+        MatTableModule
     ]
 })
 export class MaterialModule {

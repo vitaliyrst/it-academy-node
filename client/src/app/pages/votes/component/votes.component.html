@@ -9,7 +9,9 @@
             <div class="grid-body" *ngFor="let item of votes">
                 <div class="id">{{item.id}}</div>
                 <div class="current-votes">{{item.count}}</div>
-                <button type="button" class="btn-vote" (click)="sendVote(item.id)">{{item.name}}</button>
+                <button class="btn-vote" mat-stroked-button color="primary" (click)="sendVote(item.id)">
+                    {{item.name}}
+                </button>
             </div>
         </div>
     </div>
