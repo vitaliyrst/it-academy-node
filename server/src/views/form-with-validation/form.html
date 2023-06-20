@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sample Form</title>
+</head>
+<body>
+<h1>Profile</h1>
+<form id="profile-form" method="POST" action="/rest/form/submit"
+      style="width: 400px; display: flex; flex-direction: column">
+    <label style="margin-top: 20px" for="firstname">First Name:</label>
+    <input type="text" id="firstname" name="firstname">
+
+    <label style="margin-top: 20px" for="lastname">Last Name:</label>
+    <input type="text" id="lastname" name="lastname">
+
+    <label style="margin-top: 20px" for="email">Email:</label>
+    <input type="text" id="email" name="email">
+
+    <button style="width: 100px; margin-top: 20px; align-self: end" type="submit">Send</button>
+</form>
+</body>
+</html>
