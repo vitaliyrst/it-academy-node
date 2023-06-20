@@ -3,7 +3,7 @@ import VotesService from "../../services/votes/votes.service";
 
 class VotesController {
 
-    async variants(req: Request, res: Response) {
+    variants = async (req: Request, res: Response) => {
         try {
             const variants = await VotesService.getVariants();
             return res.status(200).json({
@@ -18,7 +18,7 @@ class VotesController {
         }
     }
 
-    async stats(req: Request, res: Response) {
+    stats = async (req: Request, res: Response) => {
         try {
             const stats = await VotesService.getStats();
             return res.status(200).json({
@@ -33,7 +33,7 @@ class VotesController {
         }
     }
 
-    async vote(req: Request, res: Response) {
+    vote = async (req: Request, res: Response) => {
         try {
             await VotesService.setVote(req.body.id);
             return res.status(200).json({success: true, id: req.body.id});

@@ -5,7 +5,7 @@ import {IVote} from "../../interfaces/votes.interface";
 
 class VotesService {
 
-    async getDirectory() {
+    getDirectory = async () => {
         const directory = path.join(process.cwd(), 'src', 'files');
 
         if (!fsSync.existsSync(directory)) {
@@ -15,7 +15,7 @@ class VotesService {
         return directory;
     }
 
-    async getFile() {
+    getFile = async () => {
         const directory = await this.getDirectory();
 
         if (!fsSync.existsSync(directory + '/votes.json')) {
@@ -33,11 +33,11 @@ class VotesService {
         return await fs.readFile(directory + '/votes.json', 'utf-8');
     }
 
-    async writeFile(path: string, votes: IVote[]) {
+    writeFile = async (path: string, votes: IVote[]) => {
         await fs.writeFile(path, JSON.stringify(votes));
     }
 
-    async getVariants() {
+    getVariants = async () => {
         const data = await this.getFile();
         const variants = <IVote[]>JSON.parse(data);
 
@@ -49,7 +49,7 @@ class VotesService {
         });
     }
 
-    async getStats() {
+    getStats = async () => {
         const data = await this.getFile();
         const variants = <IVote[]>JSON.parse(data);
 
@@ -61,7 +61,7 @@ class VotesService {
         });
     }
 
-    async setVote(id: number) {
+    setVote = async (id: number) => {
         const data = await this.getFile();
         const votes = <IVote[]>JSON.parse(data);
         const vote = votes.find(item => item.id === id);
