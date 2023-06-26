@@ -11,7 +11,7 @@ module.exports = class VotesController {
                 data: variants
             });
         } catch (err) {
-            return res.status(500).json({
+            return res.status(200).json({
                 success: false,
                 message: 'No data with variants'
             });
@@ -26,7 +26,7 @@ module.exports = class VotesController {
                 data: stats
             });
         } catch (err) {
-            return res.status(500).json({
+            return res.status(200).json({
                 success: false,
                 message: 'No data with stats'
             });
@@ -38,7 +38,7 @@ module.exports = class VotesController {
             await VotesService.setVote(req.body.id);
             return res.status(200).json({success: true, id: req.body.id});
         } catch (err) {
-            return res.status(500).json({
+            return res.status(200).json({
                 success: false,
                 message: err.message
             });
