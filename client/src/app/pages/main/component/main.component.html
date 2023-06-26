@@ -1,9 +1,0 @@
-<div class="dashboard-container">
-    <div *ngFor="let lesson of lessons">
-        <div class="title">{{lesson.title}}</div>
-
-        <div *ngFor="let work of lesson.homework">
-            <a class="number" [href]="work.link" target="_blank">Homework - {{work.id}}</a>
-        </div>
-    </div>
-</div>

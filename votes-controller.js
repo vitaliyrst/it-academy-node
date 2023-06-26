@@ -1,9 +1,9 @@
-import {Request, Response} from "express";
-import VotesService from "../../services/votes/votes.service";
+const votesService = require('./votes-service');
+const VotesService = new votesService();
 
-class VotesController {
+module.exports = class VotesController {
 
-    variants = async (req: Request, res: Response) => {
+    variants = async (req, res) => {
         try {
             const variants = await VotesService.getVariants();
             return res.status(200).json({
@@ -18,7 +18,7 @@ class VotesController {
         }
     }
 
-    stats = async (req: Request, res: Response) => {
+    stats = async (req, res) => {
         try {
             const stats = await VotesService.getStats();
             return res.status(200).json({
@@ -33,11 +33,11 @@ class VotesController {
         }
     }
 
-    vote = async (req: Request, res: Response) => {
+    vote = async (req, res) => {
         try {
             await VotesService.setVote(req.body.id);
             return res.status(200).json({success: true, id: req.body.id});
-        } catch (err: any) {
+        } catch (err) {
             return res.status(500).json({
                 success: false,
                 message: err.message
@@ -45,5 +45,3 @@ class VotesController {
         }
     }
 }
-
-export default new VotesController();
