@@ -18,12 +18,12 @@
     const contentWrapper = document.querySelector('.content-wrapper');
 
     getVariants = async () => {
-        const response = await fetch('http://localhost:5000/variants');
+        const response = await fetch('/variants');
         return response.json();
     }
 
     getStats = async () => {
-        const response = await fetch('http://localhost:5000/stats', {
+        const response = await fetch('/stats', {
             headers: {'Content-Type': 'application/json'},
             method: 'POST',
         });
@@ -31,7 +31,7 @@
     }
 
     onVoteClick = async (id, votes) => {
-        await fetch('http://localhost:5000/vote', {
+        await fetch('/vote', {
             headers: {'Content-Type': 'application/json'},
             method: 'POST',
             body: JSON.stringify({id})
