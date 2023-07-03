@@ -12,6 +12,12 @@
         <div>Send vote</div>
     </div>
     <div class="content-wrapper"></div>
+
+    <div>
+        <button onclick="getDocument('html')">HTML</button>
+        <button onclick="getDocument('xml')">XML</button>
+        <button onclick="getDocument('json')">JSON</button>
+    </div>
 </div>
 
 <script>
@@ -66,6 +72,26 @@
             row.append(action);
             contentWrapper.append(row);
         });
+    }
+
+    getDocument = async (type) => {
+        const headers = new Headers();
+
+        if (type === 'html') {
+            headers.set('Accept', 'text/html');
+        } else if (type === 'xml') {
+            headers.set('Accept', 'application/xml');
+        } else {
+            headers.set('Accept', 'application/json');
+        }
+
+        const response = await fetch('/reports', {headers});
+        const data = await response.blob();
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(new Blob([data]));
+        link.download = `reports - ${new Date().toDateString()}.${type}`;
+        link.click();
+        link.remove();
     }
 
     init = async () => {

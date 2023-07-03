@@ -44,4 +44,26 @@ module.exports = class VotesController {
             });
         }
     }
+
+    reports = async (req, res) => {
+        try {
+            const accept = req.headers['accept'];
+
+            if (accept === 'text/html') {
+                res.header('Content-Type', 'text/html');
+                res.status(200).send(await VotesService.getHTMLReport());
+            } else if (accept === 'application/xml') {
+                res.header('Content-Type', 'application/xml');
+                res.status(200).send(await VotesService.getXMLReport());
+            } else {
+                res.header('Content-Type', 'application/json');
+                res.status(200).send(await VotesService.getJSONReport());
+            }
+        } catch (err) {
+            return res.status(200).json({
+                success: false,
+                message: err.message
+            });
+        }
+    }
 }

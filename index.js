@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
 app.get('/variants', VotesController.variants);
 app.post('/stats', VotesController.stats);
 app.post('/vote', VotesController.vote);
+app.get('/reports', VotesController.reports);
 
 app.listen(port, () => {
     console.log(`Server is running at port="${port}"`);

@@ -32,13 +32,17 @@ module.exports = class VotesService {
         return await fs.readFile(directory + '/votes.json', 'utf-8');
     }
 
+    parseFile = async () => {
+        const data = await this.getFile();
+        return JSON.parse(data);
+    }
+
     writeFile = async (path, votes) => {
         await fs.writeFile(path, JSON.stringify(votes));
     }
 
     getVariants = async () => {
-        const data = await this.getFile();
-        const variants = JSON.parse(data);
+        const variants = await this.parseFile();
 
         return variants.map(item => {
             return {
@@ -49,8 +53,7 @@ module.exports = class VotesService {
     }
 
     getStats = async () => {
-        const data = await this.getFile();
-        const variants = JSON.parse(data);
+        const variants = await this.parseFile();
 
         return variants.map(item => {
             return {
@@ -61,9 +64,8 @@ module.exports = class VotesService {
     }
 
     setVote = async (id) => {
-        const data = await this.getFile();
-        const votes = JSON.parse(data);
-        const vote = votes.find(item => +item.id === +id);
+        const variants = await this.parseFile();
+        const vote = variants.find(item => +item.id === +id);
 
         if (!vote) {
             throw new Error('This code doesn\'t exist');
@@ -72,8 +74,47 @@ module.exports = class VotesService {
         }
 
         const directory = await this.getDirectory();
-        await this.writeFile(directory + '/votes.json', votes);
+        await this.writeFile(directory + '/votes.json', variants);
 
         return true;
+    }
+
+    getJSONReport = async () => {
+        return await this.getFile();
+    }
+
+    getXMLReport = async () => {
+        const variants = await this.parseFile();
+        let data = `<?xml version="1.0" encoding="UTF-8"?>`;
+        data += `<Variants>`;
+
+        variants.forEach(variant => {
+            data += `<Variant>
+                        <Id>Id: ${variant.id}</Id>
+                        <Name>Name: ${variant.name}</Name>
+                        <Count>Count: ${variant.count}</Count>
+                     </Variant>`;
+        });
+
+        data += `</Variants>`
+
+        return data;
+    }
+
+    getHTMLReport = async () => {
+        const variants = await this.parseFile();
+        let data = `<div style="display: flex; flex-direction: column; gap: 20px">`;
+
+        variants.forEach(variant => {
+            data += `<div style="display: flex; gap: 12px">
+                        <div>Id: ${variant.id}</div>
+                        <div>Name: ${variant.name}</div>
+                        <div>Count: ${variant.count}</div>
+                     </div>`;
+        });
+
+        data += `</div>`
+
+        return data;
     }
 }
