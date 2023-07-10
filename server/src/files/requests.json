@@ -1,0 +1,20 @@
+[
+	{
+		"id": 1,
+		"method": "get",
+		"url": "https://test.taqmanifesttest.com/rest/client-info",
+		"title" : "Get client info"
+	},
+	{
+		"id": 2,
+		"method": "get",
+		"url": "https://test.taqmanifesttest.com/rest/translate?client=web&lang=en",
+		"title" : "Get dictionary"
+	},
+	{
+		"id": 3,
+		"method": "post",
+		"url": "https://test.taqmanifesttest.com/rest/client-info",
+		"title" : "Get dictionary"
+	}
+]

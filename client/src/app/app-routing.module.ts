@@ -4,20 +4,16 @@ import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 const routes: Routes = [
     {
         path: '',
-        redirectTo: 'votes',
+        redirectTo: 'postman',
         pathMatch: 'full',
     },
-    /*{
-        path: 'main',
-        loadChildren: () => import('./pages/main/main.module').then(m => m.MainModule),
-    },*/
     {
-        path: 'votes',
-        loadChildren: () => import('./pages/votes/votes.module').then(m => m.VotesModule),
+        path: 'postman',
+        loadChildren: () => import('./pages/postman/postman.module').then(m => m.PostmanModule),
     },
     {
         path: '**',
-        redirectTo: 'votes'
+        redirectTo: 'postman'
     }
 ];
 

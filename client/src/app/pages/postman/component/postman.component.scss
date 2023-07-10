@@ -1,0 +1,61 @@
+@import "mixins";
+@import "palette";
+
+.postman-container {
+    min-height: calc(100vh - 84px - 81px);
+    display: flex;
+    gap: 20px;
+
+    .list-requests-container {
+        width: 300px;
+        padding: 10px;
+
+        background-color: #F9F9F9;
+        border-right: 1px solid #EDEDED;
+
+        display: flex;
+        flex-direction: column;
+
+        .request {
+            padding: 4px 8px;
+
+            cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            &:hover {
+                background-color: #eeeeee;
+            }
+
+            .method {
+                min-width: 40px;
+                @include RobotoMedium();
+                @include SetFont(12px, 16px, $text-color);
+
+                &.get {
+                    color: #007F31;
+                }
+
+                &.post {
+                    color: #AD7A03;
+                }
+            }
+
+            .title {
+                display: inline-block;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+                @include RobotoRegular();
+                @include SetFont(12px, 16px, $text-color);
+            }
+        }
+    }
+
+    .request-form {
+        flex-basis: 70%;
+    }
+}

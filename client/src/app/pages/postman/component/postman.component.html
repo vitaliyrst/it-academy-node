@@ -1,0 +1,12 @@
+<div class="postman-container">
+    <div class="list-requests-container">
+        <div class="request" *ngFor="let request of requests">
+            <div class="method" [ngClass]="request.method">{{request.method.toUpperCase()}}</div>
+            <div class="title">{{request.title}}</div>
+        </div>
+    </div>
+
+    <div class="request-form">
+
+    </div>
+</div>
