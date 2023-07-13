@@ -2,12 +2,12 @@
 @import "palette";
 
 .postman-container {
-    min-height: calc(100vh - 84px - 81px);
+    min-height: calc(100vh - 120px);
+    max-height: calc(100vh - 120px);
     display: flex;
-    gap: 20px;
 
-    .list-requests-container {
-        width: 300px;
+    .left-column {
+        min-width: 300px;
         padding: 10px;
 
         background-color: #F9F9F9;
@@ -15,47 +15,448 @@
 
         display: flex;
         flex-direction: column;
+        gap: 4px;
 
         .request {
-            padding: 4px 8px;
-
-            cursor: pointer;
-
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
 
-            &:hover {
-                background-color: #eeeeee;
+            .mat-icon {
+                width: 16px;
+                height: 16px;
+                margin-top: -5px;
+
+                color: #B54C4C;
+                cursor: pointer;
             }
 
-            .method {
-                min-width: 40px;
-                @include RobotoMedium();
-                @include SetFont(12px, 16px, $text-color);
+            .method-wrapper {
+                cursor: pointer;
+                padding: 4px 8px;
+                display: flex;
 
-                &.get {
-                    color: #007F31;
+                &:hover,
+                &.active {
+                    background-color: #ececec;
+                    border-radius: 4px;
                 }
 
-                &.post {
-                    color: #AD7A03;
+                .method-name {
+                    min-width: 40px;
                 }
-            }
 
-            .title {
-                display: inline-block;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                .title {
+                    display: inline-block;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
 
-                @include RobotoRegular();
-                @include SetFont(12px, 16px, $text-color);
+                    @include RobotoRegular();
+                    @include SetFont(14px, 16px, $text-color);
+                }
             }
         }
     }
 
-    .request-form {
-        flex-basis: 70%;
+    .right-column {
+        width: 100%;
+        overflow: hidden;
+
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        .request-form {
+            min-height: calc(50% - 0.5px);
+            max-height: calc(50% - 0.5px);
+            padding: 10px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+
+            .button-container {
+                display: flex;
+                gap: 12px;
+                justify-content: space-between;
+
+                .save-button {
+                    display: flex;
+                    gap: 12px;
+                    position: relative;
+
+                    input {
+                        width: 200px;
+                        padding: 0 6px;
+                        @include RobotoRegular();
+                        @include SetFont(14px, 18px, $text-color);
+                        border: 1px solid $dark-primary;
+                        border-radius: 4px;
+                        outline: none;
+                    }
+
+                    .error {
+                        position: absolute;
+                        bottom: -22px;
+                        left: 6px;
+                    }
+                }
+            }
+
+            .url-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 12px;
+
+                .input-wrapper {
+                    width: 100%;
+                    height: 34px;
+                    padding: 0 6px;
+
+                    border: 1px solid $dark-primary;
+                    border-radius: 4px;
+
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    position: relative;
+
+                    .method-wrapper {
+                        width: 80px;
+                        position: relative;
+
+                        .method {
+                            cursor: pointer;
+
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                        }
+
+                        .method-list {
+                            width: 92px;
+                            padding: 6px;
+
+                            border-radius: 4px;
+                            background-color: white;
+                            box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+
+                            position: absolute;
+                            top: 36px;
+                            left: -6px;
+
+                            display: flex;
+                            flex-direction: column;
+                            gap: 6px;
+
+                            .method-name {
+                                padding: 4px 10px;
+                                cursor: pointer;
+
+                                &:hover {
+                                    background-color: #ececec;
+                                    border-radius: 4px;
+                                }
+                            }
+                        }
+                    }
+
+                    .line {
+                        width: 1px;
+                        height: 26px;
+                        background-color: rgba($dark-primary, 0.2);
+                    }
+
+                    input {
+                        width: 100%;
+
+                        @include RobotoRegular();
+                        @include SetFont(14px, 18px, $text-color);
+                        border: none;
+                        outline: none;
+                    }
+
+                    .error {
+                        position: absolute;
+                        bottom: -22px;
+                        left: 104px;
+                    }
+                }
+            }
+
+            .request-params-container {
+                height: 80%;
+                overflow: auto;
+
+                .request-tabs-container {
+                    display: flex;
+                    gap: 12px;
+
+                    .tab {
+                        padding-bottom: 2px;
+
+                        @include RobotoRegular();
+                        @include SetFont(14px, 18px, $text-gray);
+                        cursor: pointer;
+
+                        &.active {
+                            border-bottom: 2px solid $text-gray;
+                        }
+                    }
+                }
+
+                .inputs-container {
+                    margin-top: 24px;
+                    border: 1px solid #EDEDED;
+
+                    .headers-wrapper {
+                        display: flex;
+
+                        .text {
+                            flex-basis: 50%;
+                            padding: 8px 8px;
+
+                            @include RobotoMedium();
+                            @include SetFont(14px, 16px, $text-color);
+
+                            &:first-child {
+                                border-right: 1px solid #EDEDED;
+                            }
+                        }
+                    }
+
+                    .key-value {
+                        display: flex;
+
+                        input {
+                            flex-basis: 50%;
+                            padding: 8px 8px;
+
+                            @include RobotoRegular();
+                            @include SetFont(14px, 16px, $text-color);
+                            outline: none;
+
+                            border-top: 1px solid #EDEDED;
+                            border-bottom: none;
+                            border-left: none;
+                            border-right: none;
+
+                            &:first-child {
+                                border-right: 1px solid #EDEDED;
+                            }
+                        }
+                    }
+                }
+
+                .request-body {
+                    margin-top: 24px;
+
+                    border: 1px solid #EDEDED;
+
+                    max-height: 40vh;
+                    overflow: auto;
+                }
+            }
+        }
+
+        .separator {
+            width: 100%;
+            height: 1px;
+            background-color: #EDEDED;
+            position: absolute;
+            top: 50%;
+            left: 0;
+        }
+
+        .response-form {
+            min-height: calc(50% - 0.5px);
+            max-height: calc(50% - 0.5px);
+            padding: 10px;
+            position: relative;
+
+            .response-tabs-container {
+                display: flex;
+                justify-content: space-between;
+
+                .tabs-wrapper {
+                    display: flex;
+                    gap: 12px;
+
+                    .tab {
+                        padding-bottom: 2px;
+
+                        @include RobotoRegular();
+                        @include SetFont(14px, 18px, $text-gray);
+                        cursor: pointer;
+
+                        &.active {
+                            border-bottom: 2px solid $text-gray;
+                        }
+                    }
+                }
+
+                .additional-info-wrapper {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+
+                    @include RobotoRegular();
+                    @include SetFont(12px, 14px, $text-gray);
+
+                    .line {
+                        width: 1px;
+                        height: 10px;
+                        background-color: $text-gray;
+                    }
+                }
+            }
+
+            .response-body {
+                height: 80%;
+                margin-top: 24px;
+
+                pre {
+                    height: 100%;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+
+                }
+
+                .html {
+                    height: 100%;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+
+                }
+            }
+
+            .response-headers {
+                width: 100%;
+                max-height: 80%;
+                margin-top: 24px;
+
+                border: 1px solid #EDEDED;
+                overflow-y: auto;
+                overflow-x: hidden;
+
+                .headers-wrapper,
+                .key-value {
+                    display: flex;
+
+                    .text {
+                        flex-basis: 50%;
+                        padding: 8px 8px;
+
+                        @include RobotoMedium();
+                        @include SetFont(14px, 16px, $text-color);
+
+                        &:first-child {
+                            border-right: 1px solid #EDEDED;
+                        }
+                    }
+                }
+
+                .key-value {
+                    .text {
+                        border-top: 1px solid #EDEDED;
+                        @include RobotoRegular();
+                    }
+                }
+            }
+
+            .error {
+                text-align: center;
+
+                position: relative;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            .loader {
+                position: relative;
+                top: 30%;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                .message {
+                    margin-top: 14px;
+                    @include RobotoMedium();
+                    @include SetFont(16px, 20px, $text-gray);
+                }
+
+                .lds-ring {
+                    display: inline-block;
+                    position: relative;
+                    width: 80px;
+                    height: 80px;
+                }
+                .lds-ring div {
+                    box-sizing: border-box;
+                    display: block;
+                    position: absolute;
+                    width: 64px;
+                    height: 64px;
+                    margin: 8px;
+                    border: 8px solid $dark-primary;
+                    border-radius: 50%;
+                    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+                    border-color: $dark-primary transparent transparent transparent;
+                }
+                .lds-ring div:nth-child(1) {
+                    animation-delay: -0.45s;
+                }
+                .lds-ring div:nth-child(2) {
+                    animation-delay: -0.3s;
+                }
+                .lds-ring div:nth-child(3) {
+                    animation-delay: -0.15s;
+                }
+                @keyframes lds-ring {
+                    0% {
+                        transform: rotate(0deg);
+                    }
+                    100% {
+                        transform: rotate(360deg);
+                    }
+                }
+            }
+        }
+    }
+
+    .error {
+        @include RobotoMedium();
+        @include SetFont(14px, 18px, $accent-red);
+    }
+
+    input::placeholder {
+        @include RobotoRegular();
+        @include SetFont(14px, 18px, rgba($text-gray, 0.5));
+    }
+
+    button {
+        min-width: 100px;
+
+        @include RobotoMedium();
+        @include SetFont(16px, 18px, $white);
+        background-color: $semi-dark-primary;
+        box-shadow: none;
+    }
+
+    .get {
+        @include RobotoMedium();
+        @include SetFont(14px, 16px, $text-color);
+        color: #007F31 !important;
+    }
+
+    .post {
+        @include RobotoMedium();
+        @include SetFont(14px, 16px, $text-color);
+        color: #AD7A03 !important;
     }
 }

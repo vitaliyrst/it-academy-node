@@ -38,6 +38,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 /** Default Fonts */
@@ -48,4 +49,28 @@ body {
 
     @include RobotoRegular();
     @include SetFont(14px, 20px, $text-color);
+}
+
+pre {
+
+    white-space: pre-wrap;
+
+    .number-line {
+        color: $text-gray;
+    }
+    .string {
+        color: #9a0e0e;
+    }
+    .number {
+        color: #0097f1;
+    }
+    .boolean {
+        color: darkorange;
+    }
+    .null {
+        color: #727990;
+    }
+    .key {
+        color: #5a2b88;
+    }
 }

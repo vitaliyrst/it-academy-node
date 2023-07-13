@@ -1,12 +1,159 @@
 <div class="postman-container">
-    <div class="list-requests-container">
+    <div class="left-column">
         <div class="request" *ngFor="let request of requests">
-            <div class="method" [ngClass]="request.method">{{request.method.toUpperCase()}}</div>
-            <div class="title">{{request.title}}</div>
+            <mat-icon (click)="removeRequest(request.id)">delete</mat-icon>
+            <div class="method-wrapper"
+                 [ngClass]="{active: selectedRequest && selectedRequest.id === request.id}"
+                 (click)="onSelectRequest(request)">
+                <div class="method-name" [ngClass]="request.method">{{request.method.toUpperCase()}}</div>
+                <div class="title">{{request.title}}</div>
+            </div>
         </div>
     </div>
 
-    <div class="request-form">
+    <div class="right-column">
+        <div class="request-form">
+            <div class="button-container">
+                <div class="clear-button">
+                    <button mat-raised-button class="button" (click)="clearRequest()">Clear</button>
+                </div>
 
+                <div class="save-button">
+                    <input placeholder="Request Name"
+                           [(ngModel)]="requestConfig.title"
+                           (ngModelChange)="onUrlAndTitleModelChange()"
+                    />
+                    <span class="error" *ngIf="errors.errorTitle">{{errors.errorTitle}}</span>
+                    <button mat-raised-button class="button" (click)="saveRequest()">
+                        {{selectedRequest ? 'Update' : 'Save'}}
+                    </button>
+                </div>
+            </div>
+
+            <div class="url-container">
+                <div class="input-wrapper">
+                    <div class="method-wrapper">
+                        <div class="method" (click)="onOpenMethodsList()">
+                            <div class="method-name" [ngClass]="requestConfig.method">
+                                {{requestConfig.method.toUpperCase()}}
+                            </div>
+                            <mat-icon *ngIf="!openMethodsList">keyboard_arrow_down</mat-icon>
+                            <mat-icon *ngIf="openMethodsList">keyboard_arrow_up</mat-icon>
+                        </div>
+
+                        <div class="method-list" *ngIf="openMethodsList">
+                            <div class="method-name get" (click)="onSelectMethod('get')">GET</div>
+                            <div class="method-name post" (click)="onSelectMethod('post')">POST</div>
+                        </div>
+                    </div>
+                    <div class="line"></div>
+                    <input placeholder="Enter URL or paste text"
+                           [(ngModel)]="requestConfig.url"
+                           (ngModelChange)="onUrlAndTitleModelChange()"
+                    />
+                    <span class="error" *ngIf="errors.errorUrl">{{errors.errorUrl}}</span>
+                </div>
+
+                <button mat-raised-button class="button" (click)="sendRequest()">Send</button>
+            </div>
+
+            <div class="request-params-container">
+                <div class="request-tabs-container">
+                    <div class="tab"
+                         [ngClass]="{'active' : selectedTabs.request === 'headers'}"
+                         (click)="onSelectTab('headers', 'req')">
+                        Headers
+                    </div>
+
+                    <div class="tab"
+                         [ngClass]="{'active' : selectedTabs.request === 'body'}"
+                         (click)="onSelectTab('body', 'req')">
+                        Body
+                    </div>
+                </div>
+
+                <div class="inputs-container" *ngIf="selectedTabs.request === 'headers'">
+                    <div class="headers-wrapper">
+                        <div class="text">Key</div>
+                        <div class="text">Value</div>
+                    </div>
+
+                    <div class="key-value" *ngFor="let item of requestConfig.headers">
+                        <input [(ngModel)]="item.key" placeholder="Key"
+                               (ngModelChange)="onChangeHeaderOrBodyModel(item, 'headers')"/>
+                        <input [(ngModel)]="item.value" placeholder="Value"
+                               (ngModelChange)="onChangeHeaderOrBodyModel(item, 'headers')"/>
+                    </div>
+                </div>
+
+                <div class="inputs-container" *ngIf="selectedTabs.request === 'body'">
+                    <div class="headers-wrapper">
+                        <div class="text">Key</div>
+                        <div class="text">Value</div>
+                    </div>
+
+                    <div class="key-value" *ngFor="let item of requestConfig.body">
+                        <input [(ngModel)]="item.key" placeholder="Key"
+                               (ngModelChange)="onChangeHeaderOrBodyModel(item, 'body')"/>
+                        <input [(ngModel)]="item.value" placeholder="Value"
+                               (ngModelChange)="onChangeHeaderOrBodyModel(item, 'body')"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="response-form">
+            <div class="response-tabs-container" *ngIf="!errors.errorMessage && !preload && response">
+                <div class="tabs-wrapper">
+                    <div class="tab"
+                         [ngClass]="{'active' : selectedTabs.response === 'body'}"
+                         (click)="onSelectTab('body', 'res')">
+                        Body
+                    </div>
+                    <div class="tab"
+                         [ngClass]="{'active' : selectedTabs.response === 'headers'}"
+                         (click)="onSelectTab('headers', 'res')">
+                        Headers
+                    </div>
+                </div>
+
+                <div class="additional-info-wrapper">
+                    <div class="status">Status: {{response.status}}</div>
+                    <div class="line"></div>
+                    <div class="content-type">Content-Type: {{contentType}}</div>
+                </div>
+            </div>
+
+            <div class="response-body"
+                 *ngIf="selectedTabs.response === 'body' && !errors.errorMessage && !preload && response?.data">
+                <pre *ngIf="contentType.includes('application/json')"
+                     [innerHTML]="response.data | prettyJson: [true, 4]"></pre>
+                <div class="html" *ngIf="contentType.includes('text/html')" [innerHTML]="response.data"></div>
+                <img *ngIf="['image/png', 'image/jpeg', 'image/svg+xml'].includes(contentType)"
+                     ngSrc="{{response.config.url}}" alt="image" width="200" height="200"/>
+            </div>
+
+            <div class="response-headers"
+                 *ngIf="selectedTabs.response === 'headers' && !errors.errorMessage && !preload && response">
+                <div class="headers-wrapper">
+                    <div class="text">Key</div>
+                    <div class="text">Value</div>
+                </div>
+
+                <div class="key-value" *ngFor="let header of response.headers">
+                    <div class="text">{{header.key}}</div>
+                    <div class="text">{{header.value}}</div>
+                </div>
+            </div>
+
+            <div class="error" *ngIf="errors.errorMessage && !preload">{{errors.errorMessage}}</div>
+
+            <div class="loader" *ngIf="preload">
+                <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                <div class="message">Sending request...</div>
+            </div>
+        </div>
     </div>
 </div>

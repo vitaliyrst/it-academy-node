@@ -3,10 +3,13 @@ import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
-import {MaterialModule} from "./material.module";
+import {MaterialModule} from "./modules/material.module";
+import {PrettyJsonPipe} from './pipes/pretty-json.pipe';
 
 @NgModule({
-    declarations: [],
+    declarations: [
+        PrettyJsonPipe
+    ],
     imports: [
         CommonModule,
         FormsModule,
@@ -21,7 +24,8 @@ import {MaterialModule} from "./material.module";
         ReactiveFormsModule,
         RouterModule,
         HttpClientModule,
-        MaterialModule
+        MaterialModule,
+        PrettyJsonPipe
     ]
 })
 export class SharedModule {

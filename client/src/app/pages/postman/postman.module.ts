@@ -4,6 +4,7 @@ import {SharedModule} from "../../shared/shared.module";
 import {PostmanComponent} from './component/postman.component';
 import {HeaderComponent} from "../../shared/header/header.component";
 import {FooterComponent} from "../../shared/footer/footer.component";
+import {NgOptimizedImage} from "@angular/common";
 
 const routes: Routes = [{path: '', component: PostmanComponent}];
 
@@ -13,7 +14,8 @@ const routes: Routes = [{path: '', component: PostmanComponent}];
     ],
     imports: [
         RouterModule.forChild(routes),
-        SharedModule
+        SharedModule,
+        NgOptimizedImage
     ]
 })
 export class PostmanModule {

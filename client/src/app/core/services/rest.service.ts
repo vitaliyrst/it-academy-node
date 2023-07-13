@@ -17,7 +17,7 @@ export class RestService {
 
     public get(path: string, options: object = {}): Observable<any> {
         return this.httpClient
-            .get(this.apiUrl + path, {...options, observe: 'response'})
+            .get(this.apiUrl + path, {...options})
             .pipe(
                 catchError(this.formatErrors)
             );
@@ -25,7 +25,7 @@ export class RestService {
 
     public post(path: string, body: object = {}, options: object = {}): Observable<any> {
         return this.httpClient
-            .post(this.apiUrl + path, body, {...options, observe: 'response'})
+            .post(this.apiUrl + path, body, {...options})
             .pipe(
                 catchError(this.formatErrors)
             );
@@ -33,7 +33,7 @@ export class RestService {
 
     public put(path: string, body: object = {}, options: object = {}): Observable<any> {
         return this.httpClient
-            .put(this.apiUrl + path, body, {...options, observe: 'response'})
+            .put(this.apiUrl + path, body, {...options})
             .pipe(
                 catchError(this.formatErrors)
             );
@@ -42,7 +42,7 @@ export class RestService {
 
     public delete(path: string, options: object = {}): Observable<any> {
         return this.httpClient
-            .delete(this.apiUrl + path, {...options, observe: 'response'})
+            .delete(this.apiUrl + path, {...options})
             .pipe(
                 catchError(this.formatErrors)
             );
