@@ -76,8 +76,8 @@ const getAllFilesFromAllFolders = async (folderPath, list = []) => {
 
 const getFilesToNeedCompress = async (entryFiles) => {
     const nonArchivedFiles = entryFiles.filter(file => !file.path.endsWith('.gz')).map(file => file.path);
-    let modifiedFiles = 0;
     let newFiles = 0;
+    let modifiedFiles = 0;
 
     for await (let entryFile of entryFiles) {
         if (entryFile.path.endsWith('.gz')) {
@@ -102,10 +102,7 @@ const getFilesToNeedCompress = async (entryFiles) => {
         }
     }
 
-    let message = `${colors.green}Found ${colors.yellow}${filesToNeedCompress.length}${colors.green} files: `;
-    message += `${colors.yellow}${newFiles}${colors.green} new files, `;
-    message += `${colors.yellow}${modifiedFiles}${colors.green} were modified.\n`;
-    rl.write(message);
+    return {newFiles, modifiedFiles};
 }
 
 const compressFile = (file) => {
@@ -153,7 +150,12 @@ const init = async () => {
     const folderPath = await askPathToFolder();
 
     rl.write(`${colors.green}Directory scanning started...${colors.white}\n`);
-    await getAllFilesFromAllFolders(folderPath);
+    const {newFiles, modifiedFiles} = await getAllFilesFromAllFolders(folderPath);
+
+    let message = `${colors.green}Found ${colors.yellow}${filesToNeedCompress.length}${colors.green} files: `;
+    message += `${colors.yellow}${newFiles}${colors.green} new files, `;
+    message += `${colors.yellow}${modifiedFiles}${colors.green} were modified.\n`;
+    rl.write(message);
 
     if (filesToNeedCompress.length) {
         const cores = os.cpus().length;
