@@ -16,6 +16,7 @@ const colors = {
 let activeTasks = 0;
 let tasksLimit = 1;
 const filesToNeedCompress = [];
+const fileList = [];
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -49,26 +50,24 @@ const askPathToFolder = async () => {
     }
 }
 
-const getAllFilesFromAllFolders = async (folderPath, list = []) => {
+const getAllFilesFromAllFolders = async (folderPath) => {
     try {
         const files = await fs.readdir(folderPath);
 
-        for (const file of files) {
+        for await (const file of files) {
             const filePath = path.join(folderPath, file);
             const stat = await fs.stat(filePath);
             const isDir = stat.isDirectory()
 
             if (isDir) {
-                await getAllFilesFromAllFolders(filePath, list);
+                await getAllFilesFromAllFolders(filePath, fileList);
             } else {
-                list.push({
+                fileList.push({
                     path: filePath,
                     stat: stat
                 });
             }
         }
-
-        return getFilesToNeedCompress(list);
     } catch (error) {
         rl.write(`${colors.red}${error.message}${colors.white}\n`);
     }
@@ -150,7 +149,8 @@ const init = async () => {
     const folderPath = await askPathToFolder();
 
     rl.write(`${colors.green}Directory scanning started...${colors.white}\n`);
-    const {newFiles, modifiedFiles} = await getAllFilesFromAllFolders(folderPath);
+    await getAllFilesFromAllFolders(folderPath);
+    const {newFiles, modifiedFiles} = await getFilesToNeedCompress(fileList);
 
     let message = `${colors.green}Found ${colors.yellow}${filesToNeedCompress.length}${colors.green} files: `;
     message += `${colors.yellow}${newFiles}${colors.green} new files, `;
