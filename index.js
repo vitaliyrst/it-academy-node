@@ -54,7 +54,7 @@ const getAllFilesFromAllFolders = async (folderPath) => {
     try {
         const files = await fs.readdir(folderPath);
 
-        for await (const file of files) {
+        for (const file of files) {
             const filePath = path.join(folderPath, file);
             const stat = await fs.stat(filePath);
             const isDir = stat.isDirectory()
@@ -78,7 +78,7 @@ const getFilesToNeedCompress = async (entryFiles) => {
     let newFiles = 0;
     let modifiedFiles = 0;
 
-    for await (let entryFile of entryFiles) {
+    for (let entryFile of entryFiles) {
         if (entryFile.path.endsWith('.gz')) {
             const clearArchivedFilePath = entryFile.path.substring(0, entryFile.path.length - 3);
 
@@ -126,6 +126,7 @@ const compressFile = (file) => {
             rl.write(`${colors.magenta}Compression completed.\n`);
             rl.close();
             process.exit(0);
+            return;
         }
 
         checkTaskQueue();
