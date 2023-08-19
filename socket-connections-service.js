@@ -30,7 +30,7 @@ module.exports = class SocketConnectionService {
             if (currentDate - lastActivity > time) {
                 person.connection.terminate();
                 delete this.connections[key];
-                console.log('Connection was closed, id: ', key)
+                console.log('Connection was closed, id: ', key);
             }
         });
     }

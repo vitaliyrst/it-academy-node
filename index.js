@@ -25,10 +25,6 @@ socketServer.on('connection', connection => {
     socketConnectionsService.addConnection(id, connection);
     console.log('New connection with id: ', id);
 
-    connection.onmessage = (message) => {
-
-    }
-
     connection.onerror = (error) => {
         console.log('Websocket error: ', error);
     }
@@ -51,7 +47,8 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage: storage});
 
-const progress = (req, res, next) => {
+const progress = async (req, res, next) => {
+    await filesService.checkUploadDirectory();
     const clientId = req.headers['token'];
     const contentLength = req.headers['content-length'];
     let downloaded = 0;
@@ -74,10 +71,12 @@ app.post('/upload-file', progress, upload.single('file'), async (req, res) => {
             type: 'progress',
             progress: 'Complete'
         }));
+
         await filesService.writeFileInfo({
             ...req.file,
             comment: req.body.comment
-        })
+        });
+
         res.status(200).json({success: true, fileName: req.file.filename});
     } catch (error) {
         res.status(500);

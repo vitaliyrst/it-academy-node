@@ -24,6 +24,16 @@ module.exports = class FilesService {
         }
     }
 
+    checkUploadDirectory = async () => {
+        try {
+            await fs.readdir(pathToUpload);
+        } catch (error) {
+            if (error.code === 'ENOENT') {
+                await fs.mkdir(pathToUpload);
+            }
+        }
+    }
+
     writeFileInfo = async (data) => {
         try {
             const json = await fs.readFile(pathToFilesInfo, 'utf-8');
