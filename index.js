@@ -105,7 +105,7 @@ app.get('/get-files', async (req, res) => {
 
 app.get('/', (req, res) => {
     try {
-        res.sendFile('index.html');
+        res.sendFile(path.join(__dirname, 'index.html'));
     } catch (error) {
         res.status(500);
     }
