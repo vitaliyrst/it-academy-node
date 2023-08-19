@@ -34,7 +34,7 @@
     const listDiv = document.querySelector('.list');
 
     const initSocketListeners = () => {
-        socket = new WebSocket('ws://localhost:5001');
+        socket = new WebSocket('ws://161.35.69.232:5001');
         socket.addEventListener('message', onSocketMessage);
         socket.addEventListener('close', onSocketClose);
         socket.addEventListener('error', onSocketError);
@@ -80,7 +80,7 @@
             formData.append('file', file);
             formData.append('comment', comment);
 
-            fetch('http://localhost:5000/upload-file', {
+            fetch('http://161.35.69.232/upload-file', {
                 method: 'POST',
                 headers: {"Token": config.token},
                 body: formData,
@@ -97,7 +97,7 @@
     }
 
     const getFiles = () => {
-        fetch('http://localhost:5000/get-files', {
+        fetch('http://161.35.69.232/get-files', {
             method: 'GET',
         })
             .then(response => response.json())
