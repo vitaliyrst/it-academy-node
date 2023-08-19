@@ -33,7 +33,7 @@
     const listDiv = document.querySelector('.list');
 
     const initSocketListeners = () => {
-        socket = new WebSocket('ws://161.35.69.232:5001');
+        socket = new WebSocket('ws://161.35.69.232/ws:5001');
         socket.addEventListener('message', onSocketMessage);
         socket.addEventListener('close', onSocketClose);
         socket.addEventListener('error', onSocketError);
