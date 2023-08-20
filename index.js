@@ -32,7 +32,7 @@ socketServer.on('connection', connection => {
     }
 });
 setInterval(() => {
-    socketConnectionsService.checkAliveConnections(10000);
+    socketConnectionsService.checkAliveConnections(100000);
 }, 1000);
 
 const storage = multer.diskStorage({
