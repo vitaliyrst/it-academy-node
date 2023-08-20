@@ -40,6 +40,7 @@
     }
 
     const removeSocketListeners = () => {
+        config.token = null;
         socket.removeEventListener('message', onSocketMessage);
         socket.removeEventListener('close', onSocketClose);
         socket.removeEventListener('error', onSocketError);
@@ -70,7 +71,6 @@
     }
 
     const setupUploadAndProgress = () => {
-
         uploadForm.addEventListener('submit', (eo) => {
             eo.preventDefault();
             initSocketListeners();
@@ -81,25 +81,30 @@
             formData.append('file', file);
             formData.append('comment', comment);
 
-            fetch('http://localhost:5000/upload-file', {
-                method: 'POST',
-                headers: {"Token": config.token},
-                body: formData,
-            })
-                .then(response => response.json())
-                .then(() => {
-                    setTimeout(() => {
-                        progressDiv.textContent = 'Progress: '
-                    }, 1000);
-                    getFiles();
-                    removeSocketListeners();
-                })
-                .catch(error => console.log(error));
+            const interval = setInterval(() => {
+                if (config.token) {
+                    clearInterval(interval);
+                    fetch(`http://${location.host}/upload-file`, {
+                        method: 'POST',
+                        headers: {"Token": config.token},
+                        body: formData,
+                    })
+                        .then(response => response.json())
+                        .then(() => {
+                            setTimeout(() => {
+                                progressDiv.textContent = 'Progress: '
+                            }, 1000);
+                            getFiles();
+                            removeSocketListeners();
+                        })
+                        .catch(error => console.log(error));
+                }
+            }, 500);
         });
     }
 
     const getFiles = () => {
-        fetch('http://localhost:5000/get-files', {
+        fetch(`http://${location.host}/get-files`, {
             method: 'GET',
         })
             .then(response => response.json())
@@ -114,7 +119,7 @@
 
                     const link = document.createElement('a');
                     link.style.flexBasis = '20%';
-                    link.href = 'http://localhost:5000/download/?name=' + item.originalname;
+                    link.href = `http://${location.host}/download/?name=` + item.originalname;
                     link.textContent = 'File: ' + item.originalname;
 
                     const comment = document.createElement('div');
