@@ -68,12 +68,12 @@
     const onSocketClose = () => {
         console.log('Connection closed');
         removeSocketListeners();
+        setTimeout(() => initSocketListeners(), 1000);
     }
 
     const setupUploadAndProgress = () => {
         uploadForm.addEventListener('submit', (eo) => {
             eo.preventDefault();
-            initSocketListeners();
 
             const file = eo.target.file.files[0];
             const comment = eo.target.comment.value;
@@ -95,7 +95,7 @@
                                 progressDiv.textContent = 'Progress: '
                             }, 1000);
                             getFiles();
-                            removeSocketListeners();
+                            /*removeSocketListeners();*/
                         })
                         .catch(error => console.log(error));
                 }
@@ -144,6 +144,7 @@
             .catch(error => console.log(error));
     }
 
+    initSocketListeners();
     setupUploadAndProgress();
     getFiles();
 </script>
