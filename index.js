@@ -4,6 +4,7 @@ const path = require('path');
 const cors = require('cors');
 const uuid = require('uuid');
 const {WebSocketServer} = require('ws');
+const {createServer} = require('http');
 
 const FilesService = require('./files-service');
 const SocketConnectionsService = require('./socket-connections-service');
@@ -18,7 +19,8 @@ app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
 
-const socketServer = new WebSocketServer({port: 5001});
+const server = createServer(app);
+const socketServer = new WebSocketServer({server: server});
 socketServer.on('connection', connection => {
     const id = uuid.v4();
     connection.send(JSON.stringify({type: 'connection', message: 'connection established', id}));
@@ -110,6 +112,6 @@ app.get('/', (req, res) => {
     }
 })
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server is running at port="${port}"`);
 });
