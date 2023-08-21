@@ -40,6 +40,7 @@ const storage = multer.diskStorage({
         cb(null, 'upload/');
     },
     filename: (req, file, cb) => {
+        console.log('multer mw works');
         file.originalname = Buffer.from(file.originalname, 'latin1').toString('utf8')
         const originalName = file.originalname;
         const ext = path.extname(originalName);
@@ -55,7 +56,10 @@ const progress = async (req, res, next) => {
     const contentLength = req.headers['content-length'];
     let downloaded = 0;
 
+    console.log('progress mw works');
+
     req.on('data', (chunk) => {
+        console.log(chunk);
         downloaded += chunk.length;
         const progress = downloaded / contentLength * 100;
         socketConnectionsService.sendMessage(
@@ -69,6 +73,7 @@ const progress = async (req, res, next) => {
 
 app.post('/upload-file', progress, upload.single('file'), async (req, res) => {
     try {
+        console.log('upload file works');
         socketConnectionsService.sendMessage(req.headers['token'], JSON.stringify({
             type: 'progress',
             progress: 'Complete'
