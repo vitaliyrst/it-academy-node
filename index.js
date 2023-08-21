@@ -37,6 +37,7 @@ setInterval(() => {
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
+        console.log('multer destination works')
         cb(null, 'upload/');
     },
     filename: (req, file, cb) => {
